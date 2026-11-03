@@ -1,0 +1,38 @@
+{
+  "name": "@anfo/dsh-social-notifications",
+  "version": "1.1.0",
+  "description": "Session status notifications for the DeepSeek Harness: provider-based webhooks with a WeCom group robot, managed from the Settings panel.",
+  "license": "MIT",
+  "author": "longjiahui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longjiahui/dsh-social-notifications.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.js", "client.js", "cordis.patch.yml", "locale/*.json", "icon.svg"],
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-api-remotes"
+      ]
+    }
+  }
+}

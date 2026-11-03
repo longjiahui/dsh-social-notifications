@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Notifications",
+    "description": "Push workspace session status changes to notification providers (WeCom group robot webhook)."
+  }
+}
