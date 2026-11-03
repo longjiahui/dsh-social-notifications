@@ -1,0 +1,39 @@
+{
+  "format": 1,
+  "title": { "en": "Community plugins for the DeepSeek Harness", "zh": "DeepSeek Harness 社区插件" },
+  "description": { "en": "Session status notifications: push workspace session changes to WeCom group robots.", "zh": "会话状态通知：把工作区会话变化推送到企业微信群机器人。" },
+  "metadata": {
+    "categories": { "notifications": { "title": { "en": "Notifications", "zh": "通知" } } },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "@anfo/dsh-social-notifications",
+      "title": { "en": "Notifications", "zh": "通知" },
+      "description": { "en": "Push workspace session status changes (started, finished, errored, waiting for your input) to notification providers. Ships a WeCom group-robot webhook provider; instances are managed from the Settings panel.", "zh": "把工作区会话状态变化（开始运行、运行完成、运行出错、等待你确认/输入）实时推送到通知提供方。内置企业微信群机器人 Webhook 提供方，实例在设置面板中可视化增删改查。" },
+      "icon": "icon.svg",
+      "author": "longjiahui",
+      "homepage": "https://github.com/longjiahui/dsh-social-notifications",
+      "repository": { "url": "https://github.com/longjiahui/dsh-social-notifications" },
+      "metadata": {
+        "category": "notifications",
+        "keywords": ["notifications", "wecom", "wechat", "webhook", "sessions"],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "1.1.0",
+          "publishTimestamp": 1791134400,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/longjiahui/dsh-social-notifications.git",
+            "commit": "00e1c196410bc09b000807f86455f70efb4db2fe"
+          },
+          "engines": { "dsh": ">=0.2.1-rc.2" }
+        }
+      ]
+    }
+  ]
+}
