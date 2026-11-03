@@ -123,6 +123,45 @@ async function sendWecom(instance, content) {
 /** Provider senders; keyed by instance type. */
 const senders = { wecom: sendWecom };
 
+const PLUGIN_LOADER_NAME = '@anfo/dsh-social-notifications';
+
+/**
+ * Self-heal the client-modules scan state for this package.
+ *
+ * On boot, the profile dependency sync can still be extracting this package
+ * while `ClientModuleRegistry`'s synchronous constructor scan reads it: the
+ * read fails and `resolveMeta()` caches `null` in `pkgMeta` (or the table
+ * record snapshots an empty bundle). That state is never refreshed on its
+ * own, so the client module stays out of the graph and web boot reports a
+ * hard entry failure. Detected here at activation - which runs after the
+ * scan - the poisoned state is dropped and the scan re-run once, healing
+ * without any manual uninstall/reinstall.
+ *
+ * @param {import('@deepseek-ai/cordis').Context} ctx - plugin context.
+ */
+function selfHealClientScan(ctx) {
+  ctx.effect(() => {
+    try {
+      const m = ctx.clientModules;
+      if (!m?.table || !m?.pkgMeta) return;
+      const baseUrl = ctx.get('loader')?.entries?.().find((row) => row.options.name === PLUGIN_LOADER_NAME)
+        ?.parent?.tree?.ctx?.baseUrl;
+      if (typeof baseUrl !== 'string' || typeof m.sourceKey !== 'function') return;
+      const sourceKey = m.sourceKey(PLUGIN_LOADER_NAME, baseUrl);
+      const record = m.table.get(PLUGIN_LOADER_NAME);
+      const poisonedMeta = m.pkgMeta.get(sourceKey) === null;
+      const emptySnapshot = record !== void 0 && (!record.bundle || record.bundle.length === 0);
+      if (!poisonedMeta && !emptySnapshot && record !== void 0) return;
+      m.pkgMeta.delete(sourceKey);
+      m.table.delete(PLUGIN_LOADER_NAME);
+      m.dirty.add(PLUGIN_LOADER_NAME);
+      m.flush(() => {});
+    } catch {
+      // Best-effort: never let the heal break activation.
+    }
+  }, 'notifications: client scan self-heal');
+}
+
 /**
  * Required services. Declared at plugin level so the Loader wires them into
  * this entry's context: `webServer` for the test-send route, the session
@@ -130,13 +169,14 @@ const senders = { wecom: sendWecom };
  * inactive in compositions without them (headless), where there is no web
  * settings surface to configure instances anyway.
  */
-export const inject = ['webServer', 'sessions', 'sessionTitle'];
+export const inject = ['webServer', 'sessions', 'sessionTitle', 'clientModules'];
 
 /**
  * @param {import('@deepseek-ai/cordis').Context} ctx - plugin context.
  * @param {unknown} config - the plugin config object (volatile-aware reads).
  */
 export function apply(ctx, config) {
+  selfHealClientScan(ctx);
   const rateWindows = new Map();
   const rateWarned = new Set();
 

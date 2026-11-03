@@ -1,6 +1,6 @@
 {
   "name": "@anfo/dsh-social-notifications",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Session status notifications for the DeepSeek Harness: provider-based webhooks with a WeCom group robot, managed from the Settings panel.",
   "license": "MIT",
   "author": "longjiahui",
