@@ -29,7 +29,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/longjiahui/dsh-social-notifications.git",
-            "commit": "00e1c196410bc09b000807f86455f70efb4db2fe"
+            "commit": "834d4d4606e803a30ed074905892a07dd6ad0af0"
           },
           "engines": { "dsh": ">=0.2.1-rc.2" }
         }
