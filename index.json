@@ -27,9 +27,7 @@
           "version": "1.1.0",
           "publishTimestamp": 1791134400,
           "source": {
-            "type": "git",
-            "url": "https://github.com/longjiahui/dsh-social-notifications.git",
-            "commit": "834d4d4606e803a30ed074905892a07dd6ad0af0"
+            "type": "npm"
           },
           "engines": { "dsh": ">=0.2.1-rc.2" }
         }
