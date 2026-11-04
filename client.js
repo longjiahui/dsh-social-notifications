@@ -9,7 +9,7 @@
  * to write, `settings/document-updated` to follow external changes.
  */
 window.__ModuleLoader__.load({
-  id: '@local/dsh-notifications',
+  id: '@anfo/dsh-social-notifications',
   factory(require) {
     const React = require('react');
     const h = React.createElement;
